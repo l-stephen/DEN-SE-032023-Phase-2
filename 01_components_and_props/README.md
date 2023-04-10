@@ -11,7 +11,7 @@
 - [ ] Recognize best practices when writing components and props
 - [ ] Observe how to render multiple components from a list
 
-<h2> 💡 React Philosophy </h2>
+<h2> 💡 React Philosophy and File Structure </h2>
 
 - Use declarative syntax (JSX)
 - Makes it easier to work with the DOM
