@@ -59,9 +59,39 @@
 
   - Dynamically render each project's about data inside the `p` tag
 
+
+<h2> 💡 React Philosophy </h2>
+
+- Use declarative syntax (JSX)
+- Makes it easier to work with the DOM
+- Clearer connection between the code we write and what is displayed in the browser
+- Use components to break down complex UI into smaller pieces which creates a better separation of concerns
+- Easier to maintain
+
+<h2> React > Vanilla JS </h2>
+
+Instead of describing how to do something:
+
+```js
+const h1 = document.createElement("h1");
+h1.id = "main";
+h1.className = "blue";
+h1.textContent = "Hello!";
+```
+
+We can just describe what we want:
+
+```js
+const h1 = (
+  <h1 id="main" className="blue">
+    Hello from JSX!
+  </h1>
+);
+```
+
 ### Creating a React App
 
-`create-react-app` will build a project folder for our application and install all the dependencies we need (via Node Package Manager).
+`create-react-app` will build a project folder for our application and install all the dependencies we need (via Node Package Manager). React recommends to pick a React powered framework that is popular, instead of using create-react-app. Some examples are Next.js, and Vite.
 
 To create a new React application and start it, run:
 
@@ -69,6 +99,18 @@ To create a new React application and start it, run:
 npx create-react-app app-name
 cd app-name
 npm start
+```
+To create a new Next application and start it, run:
+```
+npx create-next-app app-name
+cd app-name
+npm run dev
+```
+To create a new Vite application and start it, run:
+```
+npm create vite@latest app-name
+cd app-name
+npm run dev
 ```
 
 In addition to React, it gives us:
@@ -101,10 +143,11 @@ function Card() {
 
 ### Props
 
-When you create components, one way to make them dynamic and reusable is by passing in props. For example, if we wanted to create several cards on our page using a Card component, we could do so like this:
+When you create components, one way to make them dynamic and reusable is by passing in props. The props argument in our Card component defines an object that React will pass to our function when it is called, and it will use whatever attributes we add to our JSX component as key-value pairs on that props object. For example, if we wanted to create several cards on our page using a Card component, we could do so like this:
 
 ```js
 function Card(props) {
+  console.log(props); // => { greeting: "hi", subGreeting: "hello" }
   return (
     <div id="card1" className="card">
       <h1>{props.greeting}</h1>
@@ -121,14 +164,13 @@ ReactDOM.render(
   document.getElementById("root")
 );
 ```
-
-The props argument in our Card component defines an object that React will pass to our function when it is called, and it will use whatever attributes we add to our JSX component as key-value pairs on that props object.
-
 ### Resources
 
 - [React](https://reactjs.org/)
 - [Babel](https://babeljs.io/)
 - [Creating React Apps](https://reactjs.org/docs/create-a-new-react-app.html)
+- [Vite](https://vitejs.dev/)
+- [Next](https://nextjs.org/)
 - [create-react-app](https://create-react-app.dev/docs/getting-started)
 - [Webpack](https://webpack.js.org/)
 - [Quick intro to Webpack](https://medium.com/the-self-taught-programmer/what-is-webpack-and-why-should-i-care-part-1-introduction-ca4da7d0d8dc)
