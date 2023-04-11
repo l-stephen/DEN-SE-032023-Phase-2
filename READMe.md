@@ -1,116 +1,96 @@
-# State and Events
+# SENG-LIVE-000000 Phase 2 - React
+
+## Phase Level Objectives
+
+- Design a React component hierarchy based on a wireframe
+- Use React to create components that interact with an API
+- Incorporate client-side routing into a single-page application in React
+
+## 1: Components and Props
+### SWBATs:
+- Review the benefits of React over Vanilla JS 
+- Review the difference between HTML and JSX
+- Review the importance of Components
+- Review how a component is written
+- Explain what props are and how to create them
+- Recognize best practices when writing components and props
+- Observe how to render multiple components from a list
+### Lecture Topics:
+- JSX
+- Components
+- Props
+- Destructuring
+
+
+## 2: State & Events
 
 ### SWBATs:
+- Explain the importance of state
+- Explain the difference between state and props
+- Observe how to use the useState hook
+- Observe how to use DOM events in React
+### Lecture Topics:
+- Creating & Updating State
+- Events
+- Callbacks
+- useState
 
-- [ ] Explain the importance of state
-- [ ] Explain the difference between state and props
-- [ ] Observe how to use the useState hook
-- [ ] Observe how to use DOM events in React
 
-### Events
+## 3: Information Flow
+### SWBATs:
+- Define the term “lifting state”
+- Recognize the pattern for changing state in a parent component from a child component
+- Explain the role that callback functions play in changing parent state
+- Observe how we can render reusable components that invoke different callback functions after an event
+- Recognize destructured props and how to work with them
+### Lecture Topics:
+- Callback functions as props
+- Changing parent state
+- Reusing components w/ different behaviors
 
-In React, we add event handlers directly to our JSX. We still must supply the event handler with a callback. For example, if we're trying to implement a click handler on a button, we could do so by passing a callback function to the onClick attribute of an element:
+## 4: Forms
+### SWBATs:
+- Explain the difference between a controlled and uncontrolled input
+- Explain why controlled inputs are preferred by the React community
+- Review how to use callback functions with events in React
+- Review how to change parent state from a child component
+### Lecture Topics:
+- Controlled vs uncontrolled inputs
+- Forms
 
-```js
-function Counter() {
-  return <button onClick={() => console.log("clicked!")}>Click Me</button>;
-}
-```
+## 5: Side Effects & Data Fetching
 
-Events can only be attached to DOM elements, we can't attach event listeners to our components
+### SWBATs:
+- Explain what a side effect is
+- Observe how React manages side effects with the useEffect hook
+- Observe how to use the useEffect hook to fetch data on page load
+- Observe how to send a POST request via form
+- Review changing parent state
+### Lecture Topics:
+- useEffect
+- Dependency array
+- fetch => GET & POST
 
-We can also create a helper function for the callback:
+## 6: PATCH & DELETE
+### SWBATs:
+- Observe how to send a PATCH & DELETE request
+- Review changing parent state
+### Lecture Topics:
+- fetch => PATCH & DELETE
 
-```js
-function Counter() {
-  function handleClick(event) {
-    console.log(event);
-  }
+## 7: Client Side Routing
 
-  return <button onClick={handleClick}>Click Me</button>;
-}
-```
+### SWBATs:
+- Review the difference between server-side and client-side routing
+- Observe a refactor to include client-side routing using React Router V5
+- Explain what a nested route is
+- Observe how to handle nested client-side routes 
+### Lecture Topics:
+- React Router
 
-This is helpful in the case where we need to introduce additional event handling logic. We can do so without cluttering our JSX
-
-Rather than working with the native event object in the browser, React passes a Synthetic Event object to our event handlers. Synthetic events ensure that you can use the event object in the same way regardless of browser or machine. Otherwise, events are more or less the same as they are in vanilla JS. With one notable exception being onChange which in React behaves identically to the onInput event
-
-### State
-
-State is used for data that needs to be dynamic. Props are passed down from parents to children and are static, the values stored in state are meant to change, especially as the user interacts with the DOM.
-
-This is a key component of declarative programming in React: we tie our components to our state by integrating values in state into logic (e.g. conditional rendering). This way, changes in state eventually cause changes to the DOM.
-
-To work with state in a function component, we use the `useState` hook:
-
-```js
-import React, { useState } from "react";
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  return <button>Count: {count}</button>;
-}
-```
-
-When we call `useState(0)` inside the function component, that creates a new "state variable" which our function gets access to. That new state variable has an initial value of 0 (or whatever we pass into useState when we call it)
-
-`useState` will return an array of two elements:
-
-- count: the current value for the state variable
-- setCount: a setter function to update the state variable
-
-To update a state variable, we use its setter function:
-
-```js
-import React, { useState } from "react";
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
-  return <button onClick={handleClick}>Count: {count}</button>;
-}
-```
-Calling the setter function does two things:
-
-- It updates the state variable to some new value
-- It causes our component to re-render and update the DOM
-
-### Deliverables
-
-#### 1. Add a click event to the 'Dark Mode' button inside the `Header` component:
-
-- Initialize state `isDarkMode` to true
-
-- Define a function 'handleClick' that will toggle and update the `isDarkMode` state
-
-- Attach a 'click' event to the button that invokes the callback function `handleClick`
-
-#### 2. Add a click event to the clap button inside the `ProjectListItem` component:
-
-- Initialize state `clapCounts` set to 0
-
-- Create a function `handleClap` that will increment and update the `clapCounts` state by 1
-
-- Attach a 'click' event to the clap button that invokes the callback function `handleClap`
-
-#### 3. Implement a Filter by project name feature inside the `ProjectList` component:
-
-- Initialize state `searchQuery` set to an empty string
-
-- Add an `onChange` event to the search input field
-
-- When the `onChange` event occurs, update the `searchQuery` state to the value in the input field
-
-- Given the array of `projects`, filter the projects that include the value of the search query
-
-### Resources
-
-- [React Docs - Events](https://reactjs.org/docs/events.html)
-- [React Docs - Hooks](https://reactjs.org/docs/hooks-overview.html)
-- [React Docs - Functional State Updates](https://reactjs.org/docs/hooks-reference.html#functional-updates)
-- [React Docs - Stale State Problem](https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function)
+## 8: (Optional) Styled Components
+### SWBAT:
+- Observe how styled-components are used for managing and organizing component styles
+- Observe how to pass props (i.e., as, theme) to dynamically render CSS for styled components
+### Lecture Topics:
+- Styled Components
