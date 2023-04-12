@@ -1,12 +1,6 @@
 import React, {useState} from "react";
 
-const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  function handleClick(){
-    console.log(isDarkMode)
-    setIsDarkMode(!isDarkMode)
-    console.log(isDarkMode)
-  }
+const Header = ({handleClick}) => {
   return (
     <header>
       <h1>
