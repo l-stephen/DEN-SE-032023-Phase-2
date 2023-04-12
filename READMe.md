@@ -1,116 +1,128 @@
-# State and Events
+# React Information Flow
 
-### SWBATs:
+## SWBATs:
 
-- [ ] Explain the importance of state
-- [ ] Explain the difference between state and props
-- [ ] Observe how to use the useState hook
-- [ ] Observe how to use DOM events in React
+- [ ] Define the term “lifting state”
+- [ ] Recognize the pattern for changing state in a parent component from a child component
+- [ ] Explain the role that callback functions play in changing parent state
+- [ ] Observe how we can render reusable components that invokes different callback functions after an event
 
-### Events
+### Inverse Data Flow
 
-In React, we add event handlers directly to our JSX. We still must supply the event handler with a callback. For example, if we're trying to implement a click handler on a button, we could do so by passing a callback function to the onClick attribute of an element:
+In React, we only have one way to share information between multiple components:
+`props`. We've seen how to use props to send data from a parent component to a child component, like this:
 
 ```js
-function Counter() {
-  return <button onClick={() => console.log("clicked!")}>Click Me</button>;
+function Parent() {
+  const [search, setSearch] = useState("");
+
+  // passing search down as a prop
+  return <Child search={search} />;
+}
+
+function Child({ search }) {
+  return (
+    <div>
+      <p>You searched for: {search}</p>
+    </div>
+  );
 }
 ```
 
-Events can only be attached to DOM elements, we can't attach event listeners to our components
+It's also helpful to be able to pass data **up** from a child to a parent. In
+React, the only way to achieve this is by sending a **callback function** down
+from the parent to the child via `props`, and **call** that callback function in
+the child to send up data that we need.
 
-We can also create a helper function for the callback:
+First, we need to define a callback function in the parent component:
 
 ```js
-function Counter() {
-  function handleClick(event) {
-    console.log(event);
+function Parent() {
+  const [search, setSearch] = useState("");
+
+  function handleSearchChange(newValue) {
+    // do whatever we want with the data (usually setting state)
+    setSearch(newValue);
   }
 
-  return <button onClick={handleClick}>Click Me</button>;
+  return <Child search={search} />;
 }
 ```
 
-This is helpful in the case where we need to introduce additional event handling logic. We can do so without cluttering our JSX
-
-Rather than working with the native event object in the browser, React passes a Synthetic Event object to our event handlers. Synthetic events ensure that you can use the event object in the same way regardless of browser or machine. Otherwise, events are more or less the same as they are in vanilla JS. With one notable exception being onChange which in React behaves identically to the onInput event
-
-### State
-
-State is used for data that needs to be dynamic. Props are passed down from parents to children and are static, the values stored in state are meant to change, especially as the user interacts with the DOM.
-
-This is a key component of declarative programming in React: we tie our components to our state by integrating values in state into logic (e.g. conditional rendering). This way, changes in state eventually cause changes to the DOM.
-
-To work with state in a function component, we use the `useState` hook:
+Then, we need to pass a **reference** to the function down as a **prop** to the
+child component:
 
 ```js
-import React, { useState } from "react";
+function Parent() {
+  const [search, setSearch] = useState("");
 
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  return <button>Count: {count}</button>;
-}
-```
-
-When we call `useState(0)` inside the function component, that creates a new "state variable" which our function gets access to. That new state variable has an initial value of 0 (or whatever we pass into useState when we call it)
-
-`useState` will return an array of two elements:
-
-- count: the current value for the state variable
-- setCount: a setter function to update the state variable
-
-To update a state variable, we use its setter function:
-
-```js
-import React, { useState } from "react";
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
+  function handleSearchChange(newValue) {
+    setSearch(newValue);
   }
 
-  return <button onClick={handleClick}>Count: {count}</button>;
+  // pass down a reference to the function as a prop
+  return <Child search={search} onSearchChange={handleSearchChange} />;
 }
 ```
-Calling the setter function does two things:
 
-- It updates the state variable to some new value
-- It causes our component to re-render and update the DOM
+In our child component, we'll be able to call the callback function with
+whatever data we want to send up to the parent:
 
-### Deliverables
+```js
+function Child({ search, onSearchChange }) {
+  return (
+    <div>
+      <p>You searched for: {search}</p>
 
-#### 1. Add a click event to the 'Dark Mode' button inside the `Header` component:
+      {/* call onSearchChange and pass up some data */}
+      <input type="text" onChange={(e) => onSearchChange(e.target.value)} />
+    </div>
+  );
+}
+```
+### Process: Using Inverse Data Flow
 
-- Initialize state `isDarkMode` to true
+1. Define a callback function in the parent component
+2. Pass the callback function as a prop to the child
+3. Call the callback in the event handler with whatever data we're sending up
+4. Define a event handler in the child component
 
-- Define a function 'handleClick' that will toggle and update the `isDarkMode` state
+### Lifting State
 
-- Attach a 'click' event to the button that invokes the callback function `handleClick`
+- [Lifting State Up](https://reactjs.org/docs/lifting-state-up.html)
 
-#### 2. Add a click event to the clap button inside the `ProjectListItem` component:
+- Often, several components need to reflect the same changing data. We recommend lifting the shared state up to their closest common ancestor. This helps to avoid complex or unesscary managing of state.
+- If two sibling components need access to the same `state`, you will want to place the shared `state` in a parent container. Then you can pass down that `state` as well as any functions that need to modify the state as props to the two sibling components that need to display and/or change that data.
 
-- Initialize state `clapCounts` set to 0
 
-- Create a function `handleClap` that will increment and update the `clapCounts` state by 1
+## Deliverables
 
-- Attach a 'click' event to the clap button that invokes the callback function `handleClap`
+#### 1. Add a button to our App that will use json-server to fetch projects and store them in state
 
-#### 3. Implement a Filter by project name feature inside the `ProjectList` component:
+- Add a button 'Load Projects' to the JSX of the `App` component
 
-- Initialize state `searchQuery` set to an empty string
+- Add a 'click' event to the button
 
-- Add an `onChange` event to the search input field
+- When the button is clicked, make a fetch request to "http://localhost:4000/projects" and set the `projects` state to the value returned by the response
 
-- When the `onChange` event occurs, update the `searchQuery` state to the value in the input field
+#### 2. Use Inverse Data flow to implement Light-Dark mode
 
-- Given the array of `projects`, filter the projects that include the value of the search query
+- Refactor isDarkMode state from the `Header` component to the `App` component.
 
-### Resources
+- Create a callback function that updates `isDarkMode` and pass the callback function as a prop to the `Header` component
 
-- [React Docs - Events](https://reactjs.org/docs/events.html)
-- [React Docs - Hooks](https://reactjs.org/docs/hooks-overview.html)
-- [React Docs - Functional State Updates](https://reactjs.org/docs/hooks-reference.html#functional-updates)
-- [React Docs - Stale State Problem](https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function)
+- Inside the `Header` component, invoke the callback function in place of updating the state
+
+#### 3. Refactor the filter component out of `ProjectList` and implement inverse data flow
+
+- Refactor the `searchQuery` state and the filter method inside of the `ProjectList` component to the `App` component
+
+- Using inverse data flow, get the value of the input field UP to the App component
+
+- Write a callback function inside the App component:
+
+  - the function should take in a new search value and set state with that value
+
+  - pass the callback function down as a prop to `ProjectList`
+
+- Call the callback function from the onChange event listener
