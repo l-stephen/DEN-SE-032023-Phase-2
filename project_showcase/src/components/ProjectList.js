@@ -1,16 +1,12 @@
 import ProjectListItem from "./ProjectListItem";
 import React, {useState} from "react"
-const ProjectList = ({ projects }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+const ProjectList = ({ projects, search }) => {
+  
+  const [proj, setProj] = useState([])
 
   const projectListItems = projects.map((project) => (
     <ProjectListItem key={project.id} {...project} />
   ));
-
-  function search(e){
-    console.log(e)
-    setSearchQuery(e)
-  }
 
   /*const showSearch = projectListItems.filter((project)=>{
     console.log(project)
@@ -23,13 +19,21 @@ const ProjectList = ({ projects }) => {
     }
   })*/
 
-  const showSearch = searchQuery === "" ? projectListItems : 
-  projectListItems.filter((project) => project.props.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  function handleClick(){
+    loadProjects()
 
+  }
 
+  function loadProjects(){
+   fetch("http://localhost:4000/projects")
+    .then((res)=> res.json())
+    .then((proj) => setProj(proj))
+  }
+  console.log(proj)
 
   return (
     <section>
+      <button onClick={handleClick}>Load Projects</button>
       <h2>Projects</h2>
 
       <div className="filter">
@@ -42,7 +46,7 @@ const ProjectList = ({ projects }) => {
       </div>
       <input type="text" placeholder="Search..." onChange = {(event)=> search(event.target.value)}/>
 
-      <ul className="cards">{showSearch}</ul>
+      <ul className="cards">{projectListItems}</ul>
     </section>
   );
 };
