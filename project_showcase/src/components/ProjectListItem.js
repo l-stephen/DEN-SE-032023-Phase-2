@@ -3,11 +3,8 @@ import React, {useState} from "react";
   const [clapCounts, setClapCounts] = useState(0);
 
   function handleClap(){
-    console.log("clicked")
-    console.log(clapCounts)
     //setClapCounts((clapCounts)=> clapCounts + 1)
     setClapCounts(clapCounts + 1)
-    console.log(clapCounts)
     //setClapCounts(()=> clapCounts + 1)
   }
   return (
