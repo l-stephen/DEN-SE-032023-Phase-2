@@ -107,7 +107,7 @@ When React first runs our app's code, our components are born onto the page: Rea
 After they are rendered, React calls any side effects that we set up in our components using the `useEffect` hook.
 
 While our components are living on the page, we can update their data by
-setting state. Whenever we set state in a component, that cause our component (and all of its children) to re-render. After the components have re-rendered, React will call our side effects again. (It will also run the side effects cleanup function!)
+setting state. Whenever we set state in a component, that causes our component (and all of its children) to re-render. After the components have re-rendered, React will call our side effects again. (It will also run the side effects cleanup function!)
 
 When using the `useEffect` hook for long-running actions, like an event listener on the window, or subscription to a Websocket, or a timer running in the background, it's useful to be able to clean up the code when we are no longer using it.
 
@@ -151,11 +151,7 @@ One important reason to clean up after our effects is so that our code isn't run
 
 ## Deliverables
 
-#### 1. Persist the new project upon the `ProjectForm` submission
-
-- Send the new project data to the server using a `POST` fetch request
-
-#### 2. Implement useEffect in App component to load projects
+#### 1. Implement useEffect in App component to load projects
 
 - Import the `useEffect` hook from the React library
 
@@ -163,17 +159,21 @@ One important reason to clean up after our effects is so that our code isn't run
 
 - Update `projects` state to response from the server
 
-#### 3. Demonstrate the order of operations between rendering a component and running the side effect
+#### 2. Demonstrate the order of operations between rendering a component and running the side effect
 
 - Place a console.log() inside the `App` component as well as the `useEffect` method
 
 - Open up the devtools to observe when each phase of the component will occur 
 
-#### 4. Demonstrate the unmounting and cleanup phase of a component through `useEffect`
+#### 3. Demonstrate the unmounting and cleanup phase of a component through `useEffect`
 
 - Return a cleanup function inside the `useEffect` with a console.log()
 
 - Open up the devtools to observe when the cleanup will occur in the stages of a components lifecycles
+
+#### 4. Persist the new project upon the `ProjectForm` submission
+
+- Send the new project data to the server using a `POST` fetch request
 
 ### Resources
 
