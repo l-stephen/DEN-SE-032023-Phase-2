@@ -1,6 +1,10 @@
 import ProjectListItem from "./ProjectListItem";
 import React, {useState} from "react"
+<<<<<<< HEAD
 const ProjectList = ({ projects, enterProjectEditModeFor}) => {
+=======
+const ProjectList = ({ projects, enterProjectEditForm, handleDelete}) => {
+>>>>>>> 06_PATCH_DELETE
   
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -8,7 +12,11 @@ const ProjectList = ({ projects, enterProjectEditModeFor}) => {
   projects.filter((project) => project.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
   const projectListItems = showSearch.map((project) => (
+<<<<<<< HEAD
     <ProjectListItem key={project.id} {...project} enterProjectEditModeFor={enterProjectEditModeFor}/>
+=======
+    <ProjectListItem key={project.id} {...project} enterProjectEditForm = {enterProjectEditForm} handleDelete={handleDelete}/>
+>>>>>>> 06_PATCH_DELETE
   ));
 
   /*const showSearch = projectListItems.filter((project)=>{

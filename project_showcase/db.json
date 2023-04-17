@@ -23,7 +23,8 @@
       "about": "Web-based CSS, JS and HTML Editor",
       "phase": 4,
       "link": "https://code-bucket.netlify.app",
-      "image": "https://i.imgur.com/Hz84TA2.png"
+      "image": "https://i.imgur.com/Hz84TA2.png",
+      "claps": 15
     },
     {
       "id": 11,
@@ -39,7 +40,8 @@
       "about": "A Global Community of Like Minded Humans Socially Distancing ",
       "phase": 4,
       "link": "https://spreddit.netlify.app",
-      "image": "https://i.imgur.com/cyZCpWs.png"
+      "image": "https://i.imgur.com/cyZCpWs.png",
+      "claps": 9
     },
     {
       "id": 13,
@@ -72,6 +74,7 @@
       "phase": 3,
       "link": "https://homestory.netlify.app",
       "image": "https://i.imgur.com/il8ft21.png"
+<<<<<<< HEAD
     },
     {
       "id": 24,
@@ -88,6 +91,8 @@
       "phase": 4,
       "link": "https://gamesrx.netlify.app",
       "image": "https://i.imgur.com/Japzh6v.png"
+=======
+>>>>>>> 06_PATCH_DELETE
     }
   ]
 }

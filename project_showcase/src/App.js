@@ -5,7 +5,7 @@ import Review from "./components/Review"
 //import projects from "./projects";
 import ProjectEditForm from "./components/ProjectEditForm";
 import React, {useState, useEffect} from "react"
-
+import ProjectEditForm from "./components/ProjectEditForm";
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [projects, setProjects] = useState([])
@@ -15,6 +15,17 @@ const App = () => {
     setIsDarkMode(!isDarkMode)
   }
 
+  function handleUpdate(updatedProject){
+    const update = projects.map((project)=> project.id === updatedProject.id ? updatedProject : project);
+    setProjects(update)
+  }
+
+  function handleDelete(deletedProject){
+    const deleted = projects.filter((project)=> project.id !== deletedProject)
+    console.log(deleted)
+    setProjects(deleted)
+  }
+
   function onAddProject(newProject){
     console.log(newProject)
     setProjects([...projects, newProject])
@@ -22,16 +33,17 @@ const App = () => {
   console.log("Running the useEffect")
   useEffect(()=> {
     loadProjects()
-    //console.log("useEffect called")
-    return function (){
-      console.log("Cleaned Up")
-    }
   },[])
 
   function loadProjects(){
     fetch("http://localhost:3000/projects")
      .then((res)=> res.json())
      .then((proj) => setProjects(proj))
+    //console.log("useEffect called")
+    return function (){
+      console.log("Cleaned Up")
+    }
+    
    }
    const completeEditing = () => {
     setProjectId(null);
@@ -51,11 +63,26 @@ const App = () => {
    }
 
 
+   function renderForm(){
+    if(projectId){
+      return <ProjectEditForm projectId={projectId} handleUpdate = {handleUpdate}/>
+    }
+    else{
+      return <ProjectForm onAddProject = {onAddProject}/>
+    }
+   }
+   function enterProjectEditForm(projectId){
+    setProjectId(projectId)
+   }
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode = {isDarkMode} onClick = {handleClick}/>
       {renderForm()}
+<<<<<<< HEAD
       <ProjectList projects={projects} enterProjectEditModeFor = {enterProjectEditModeFor}/>
+=======
+      <ProjectList projects={projects} enterProjectEditForm = {enterProjectEditForm} handleDelete = {handleDelete}/>
+>>>>>>> 06_PATCH_DELETE
       <Review projects = {projects}/>
     </div>
   );
