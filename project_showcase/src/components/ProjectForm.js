@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 const ProjectForm = ({onAddProject}) => {
   const [name,setName] = useState("")
   const [about,setAbout] = useState("")

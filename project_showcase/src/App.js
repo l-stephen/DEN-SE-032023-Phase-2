@@ -3,11 +3,13 @@ import ProjectForm from "./components/ProjectForm";
 import ProjectList from "./components/ProjectList";
 import Review from "./components/Review"
 //import projects from "./projects";
+import ProjectEditForm from "./components/ProjectEditForm";
 import React, {useState, useEffect} from "react"
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [projects, setProjects] = useState([])
+  const [projectId, setProjectId] = useState(null)
 
   function handleClick(){
     setIsDarkMode(!isDarkMode)
@@ -31,12 +33,29 @@ const App = () => {
      .then((res)=> res.json())
      .then((proj) => setProjects(proj))
    }
+   const completeEditing = () => {
+    setProjectId(null);
+  };
+
+  const enterProjectEditModeFor = (projectId) => {
+    setProjectId(projectId);
+  };
+
+   function renderForm(){
+    if(projectId){
+      return <ProjectEditForm projectId = {projectId} completeEditing = {completeEditing}/>
+    }
+    else{
+      return <ProjectForm onAddProject = {onAddProject}/>
+    }
+   }
+
 
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode = {isDarkMode} onClick = {handleClick}/>
-      <ProjectForm onAddProject = {onAddProject}/>
-      <ProjectList projects={projects} />
+      {renderForm()}
+      <ProjectList projects={projects} enterProjectEditModeFor = {enterProjectEditModeFor}/>
       <Review projects = {projects}/>
     </div>
   );
