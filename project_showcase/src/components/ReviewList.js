@@ -1,7 +1,6 @@
 import React from "react"
 
 function ReviewList({project}){
-    console.log(project)
 
     return (
         <div>
